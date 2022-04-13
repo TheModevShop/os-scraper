@@ -5,7 +5,7 @@ const cors = require('cors')
 let browserInstance = browserObject.startBrowser()
 
 const app = express()
-const port = 2000
+const port = process.env.PORT || 3000
 
 app.use(cors())
 
