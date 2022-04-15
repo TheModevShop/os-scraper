@@ -2,10 +2,11 @@ const browserObject = require('./browser')
 const pageController = require('./pageController')
 const express = require('express')
 const cors = require('cors')
-let browserInstance = browserObject.startBrowser()
 
 const app = express()
 const port = process.env.PORT || 2000
+
+let browserInstance
 
 app.use(cors())
 
@@ -23,4 +24,5 @@ app.get('/s', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
+  browserInstance = browserObject.startBrowser()
 })
