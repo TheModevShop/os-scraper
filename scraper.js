@@ -1,4 +1,6 @@
 const randomUseragent = require('random-useragent')
+const proyPup = require('puppeteer-proxy')
+const proxyRequest = proyPup.proxyRequest
 const Promise = require('bluebird')
 const moment = require('moment')
 const USER_AGENT =
@@ -7,6 +9,19 @@ const USER_AGENT =
 const scraperObject = {
   async scraper(browser, url) {
     let page = await browser.newPage()
+    await page.setRequestInterception(true)
+
+    page.on('request', async request => {
+      await proxyRequest({
+        page,
+        proxyUrl:
+          'http://lum-customer-hl_fdeea910-zone-isp-ip-154.17.74.47:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
+        request,
+      })
+    })
+
+    // http://lum-customer-hl_fdeea910-zone-isp-ip-154.17.74.47:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225
+
     const userAgent = randomUseragent.getRandom()
     const UA = userAgent || USER_AGENT
     const navigationPromise = page.waitForNavigation({
@@ -51,10 +66,10 @@ const scraperObject = {
 
 async function tradeStationParser(page) {
   const title = await page.$(`.TradeStation--price`)
-  const price = await title.evaluate(el => el.textContent)
+  const price = await title?.evaluate(el => el.textContent)
 
   const title2 = await page.$('.Price--fiat-amount-secondary')
-  const fiat = await title2.evaluate(el => el.textContent)
+  const fiat = await title2?.evaluate(el => el.textContent)
   return {
     price,
     fiat,
@@ -67,7 +82,7 @@ async function getTables(page) {
     const accordianTitle = await page.$(
       `.item--orders:nth-child(${index + 1}) button span`,
     )
-    const value = await accordianTitle.evaluate(el => el.textContent)
+    const value = await accordianTitle?.evaluate(el => el.textContent)
     const table = await tableParser(
       page,
       `.item--orders:nth-child(${index + 1}) li`,

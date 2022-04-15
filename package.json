@@ -21,6 +21,7 @@
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-recaptcha": "^3.5.0",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "puppeteer-proxy": "^2.1.2",
     "random-useragent": "^0.5.0",
     "selenium-webdriver": "^4.1.1"
   }
