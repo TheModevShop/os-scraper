@@ -39,14 +39,13 @@ const scraperObject = {
 
     await page.setUserAgent(UA)
     await page.setJavaScriptEnabled(true)
-    await page.setDefaultNavigationTimeout(0)
+    await page.setDefaultNavigationTimeout(20000)
     await page.setExtraHTTPHeaders({
       'Accept-Language': 'en',
     })
 
     await page.goto(url)
     await navigationPromise
-    await page.setDefaultNavigationTimeout(20000)
 
     try {
       await page.waitForSelector('.CollectionLink--link')
