@@ -46,7 +46,14 @@ const scraperObject = {
 
     await page.goto(url)
     await navigationPromise
-    await page.waitForSelector('.CollectionLink--link')
+    try {
+      await page.waitForSelector('.CollectionLink--link')
+    } catch (err) {
+      const data = await page.evaluate(
+        () => document.querySelector('*').outerHTML,
+      )
+      return {page: data}
+    }
 
     let dataObj = {}
 
