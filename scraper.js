@@ -46,6 +46,8 @@ const scraperObject = {
 
     await page.goto(url)
     await navigationPromise
+    await page.setDefaultNavigationTimeout(20000)
+
     try {
       await page.waitForSelector('.CollectionLink--link')
     } catch (err) {
