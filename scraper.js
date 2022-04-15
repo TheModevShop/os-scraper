@@ -15,7 +15,7 @@ const scraperObject = {
       await proxyRequest({
         page,
         proxyUrl:
-          'http://lum-customer-hl_fdeea910-zone-isp-ip-154.17.74.47:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
+          'http://lum-customer-hl_fdeea910-zone-isp:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
         request,
       })
     })
