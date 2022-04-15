@@ -6,19 +6,37 @@ const moment = require('moment')
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36'
 
+function pick() {
+  const proxiesList = [
+    '191.101.148.211',
+    '103.230.69.153',
+    '50.114.105.246',
+    '108.165.219.71',
+    '216.185.48.226',
+    '23.26.229.68',
+    '2.59.60.93',
+    '68.67.198.20',
+    '94.124.160.191',
+    '185.240.120.60',
+  ]
+  return proxiesList[Math.floor(Math.random() * proxiesList.length)]
+}
+
 const scraperObject = {
   async scraper(browser, url) {
     let page = await browser.newPage()
     await page.setRequestInterception(true)
-
     page.on('request', async request => {
+      const dd = pick()
       await proxyRequest({
         page,
-        proxyUrl:
-          'http://lum-customer-hl_fdeea910-zone-isp:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
+        proxyUrl: `http://Selvincent:U7o6OdK@${dd}:45785`,
         request,
       })
     })
+
+    // proxyUrl:
+    //       'http://lum-customer-hl_fdeea910-zone-isp:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
 
     // http://lum-customer-hl_fdeea910-zone-isp-ip-154.17.74.47:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225
 
@@ -28,14 +46,14 @@ const scraperObject = {
       waitUntil: 'domcontentloaded',
     })
 
-    await page.setViewport({
-      width: 1920 + Math.floor(Math.random() * 100),
-      height: 1000 + Math.floor(Math.random() * 100),
-      deviceScaleFactor: 1,
-      hasTouch: false,
-      isLandscape: false,
-      isMobile: false,
-    })
+    // await page.setViewport({
+    //   width: 1920 + Math.floor(Math.random() * 100),
+    //   height: 1000 + Math.floor(Math.random() * 100),
+    //   deviceScaleFactor: 1,
+    //   hasTouch: false,
+    //   isLandscape: false,
+    //   isMobile: false,
+    // })
 
     await page.setUserAgent(UA)
     await page.setJavaScriptEnabled(true)
@@ -49,14 +67,23 @@ const scraperObject = {
     await navigationPromise
 
     try {
-      await page.waitForSelector('.CollectionLink--link')
+      await page.waitForSelector('.CollectionLink--link', {timeout: 3000})
     } catch (err) {
-      console.log(err.message, 'ERRORORORORO')
+      try {
+        await page.waitForSelector('h1 .code-label', {timeout: 3000})
+        return {blocked: true}
+      } catch (err) {}
+
       const data = await page.evaluate(
         () => document.querySelector('*').outerHTML,
       )
+      await page.close()
       return {page: data}
     }
+
+    await page.evaluate(() => {
+      window.scrollBy(0, 2400)
+    })
 
     let dataObj = {}
 
@@ -119,9 +146,6 @@ async function tableParser(page, wrapper) {
 }
 
 async function eventHistoryTable(page, wrapper) {
-  await page.evaluate(() => {
-    window.scrollBy(0, window.innerHeight)
-  })
   const headers = await page.$$(`${wrapper} .Row--isHeader .Row--cell`)
   const headerValues = await getCells(headers, page)
   const rows = await page.$$(`${wrapper} .EventHistory--row`)
