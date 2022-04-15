@@ -8,16 +8,11 @@ const USER_AGENT =
 
 function pick() {
   const proxiesList = [
-    '191.101.148.211',
-    '103.230.69.153',
-    '50.114.105.246',
-    '108.165.219.71',
-    '216.185.48.226',
-    '23.26.229.68',
-    '2.59.60.93',
-    '68.67.198.20',
-    '94.124.160.191',
-    '185.240.120.60',
+    '141.98.155.112',
+    '195.7.5.140',
+    '104.233.48.37',
+    '181.177.71.83',
+    '186.179.25.200',
   ]
   return proxiesList[Math.floor(Math.random() * proxiesList.length)]
 }
@@ -30,15 +25,10 @@ const scraperObject = {
       const dd = pick()
       await proxyRequest({
         page,
-        proxyUrl: `http://Selvincent:U7o6OdK@${dd}:45785`,
+        proxyUrl: `http://vincent_pr-esut3:3859pEJAZD@${dd}:3199`,
         request,
       })
     })
-
-    // proxyUrl:
-    //       'http://lum-customer-hl_fdeea910-zone-isp:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225',
-
-    // http://lum-customer-hl_fdeea910-zone-isp-ip-154.17.74.47:vq0ofyi24u8k@zproxy.lum-superproxy.io:22225
 
     const userAgent = randomUseragent.getRandom()
     const UA = userAgent || USER_AGENT
