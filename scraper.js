@@ -39,7 +39,8 @@ const scraperObject = {
 
     await page.setUserAgent(UA)
     await page.setJavaScriptEnabled(true)
-    await page.setDefaultNavigationTimeout(20000)
+    await page.setDefaultNavigationTimeout(25000)
+    await page.setDefaultTimeout(10000)
     await page.setExtraHTTPHeaders({
       'Accept-Language': 'en',
     })
