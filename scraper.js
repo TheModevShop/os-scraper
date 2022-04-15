@@ -49,6 +49,7 @@ const scraperObject = {
     try {
       await page.waitForSelector('.CollectionLink--link')
     } catch (err) {
+      console.log(err.message, 'ERRORORORORO')
       const data = await page.evaluate(
         () => document.querySelector('*').outerHTML,
       )
